@@ -1,0 +1,19 @@
+report:                                                          precision    recall  f1-score   support
+
+                                           1.2 - Cover Letters       0.92      1.00      0.96        12
+                 1.3.1.1 - Change of Address or Corporate Name       1.00      0.91      0.96        35
+                               1.3.3 - Debarment Certification       0.95      0.95      0.95        22
+                               1.4.1 - Letter of Authorization       1.00      0.96      0.98        45
+1.4.3 - List of Authorized persons to incorporate by reference       0.85      1.00      0.92        22
+                                1.3.5.2 - Patent Certification       0.98      0.99      0.98       338
+                                  1.3.5.1 - Patent Information       1.00      0.78      0.88        23
+                       1.4.2 - Statement of right of Reference       0.83      1.00      0.91         5
+                      1.13.1 - Summary for Nonclinical Studies       0.88      1.00      0.93         7
+                          1.13.4 - Summary of Labeling Changes       1.00      0.93      0.96        14
+                     1.13.5 - Summary of Manufacturing Changes       0.92      0.99      0.95        71
+                   1.13.6 - Summary of Microbiological Changes       0.94      0.80      0.86        20
+                        1.13.3 - Summary of Safety Information       0.96      1.00      0.98        22
+
+                                                      accuracy                           0.97       636
+                                                     macro avg       0.94      0.95      0.94       636
+                                                  weighted avg       0.97      0.97      0.97       636
