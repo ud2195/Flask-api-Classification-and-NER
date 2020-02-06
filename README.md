@@ -23,5 +23,6 @@ Description: Before a drug is released Pharmaceutical companies have to go throu
   5) Based upon the category predicted extract substance name , Manufacturer etc
   6) Build a flask api to perform above mentioned things
  
-    
+ 
+ • Not uploading the code for training NER models as i have already uploaded Substance-Ner   
   
