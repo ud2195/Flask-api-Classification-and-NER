@@ -63,10 +63,10 @@ def convert(fname, pages=None,encoding='utf-8'):
     #print(text)
     if len(text)>=500:
         #od['Category']=''
-        regex3=re.search(r"[3.]\d*(?:[.-]\w+)*\s*(Nomenclature|General Information|Process validation|Justification of Specification(s)|Manufacturer(s)|Batch Formula|Description of Manufacturing Process and Process Controls|Controls of Critical Steps and Intermediates|Process Validation and or Evaluation|Specification(s)|Analytical Procedures|Validation of Analytical Procedures|Batch Analyses|Characterization of Impurities|Reference Standards or Materials|Container Closure System|Pharmaceutical Development|Description and Composition of the Drug Product|Quality overall summary|Nomenclature|Structure|General properties|Manufacturer|Description of Manufacturing Process and Process Controls|Stability Data|Control of Materials|Controls of Critical Steps and Intermediates|Process Validation and/or Evaluation|Manufacturing Process Development|Characterization|Elucidation of Structure and other Characteristics|Impurities|Specification|Analytical Procedures|Validation of Analytical Procedures|Batch Analyses|Justification of Specification|Reference Standards or Materials|Container Closure Systems|Stability Summary and Conclusions|Post Approval Stability Protocol and Stability Commitment)",text,re.IGNORECASE)
+        regex3=re.search(r"[3.]\d*(?:[.-]\w+)*\s*(#cannot mention the categories)",text,re.IGNORECASE)
         if regex3 is not None:
             mn={}
-            tobematched=['3.2.S.1 - General Information','3.2.S.1.1 - Nomenclature','3.2.S.1.2 - Structure','3.2.S.1.3 - General properties' ,'3.2.S.2.1 - Manufacturer(s','3.2.S.2.2 - Description of Manufacturing Process and Process Controls','3.2.S.2.3 - Control of Materials','3.2.S.2.4 - Controls of Critical Steps and Intermediates','3.2.S.2.5 - Process Validation and/or Evaluation','3.2.S.2.6 - Manufacturing Process Development' ,'3.2.S.3 Characterisation' ,'3.2.S.3.1 - Elucidation of Structure and other Characteristics','3.2.S.3.2 - Impurities' ,'3.2.S.4.1 - Specification','3.2.S.4.2 - Analytical Procedures','3.2.S.4.3 - Validation of Analytical Procedures','3.2.S.4.4 - Batch Analyses','3.2.S.4.5 - Justification of Specification','3.2.S.5 - Reference Standards or Materials','3.2.S.6 - Container Closure Systems','3.2.S.7.1 - Stability Summary and Conclusions','3.2.S.7.2 - Post Approval Stability Protocol and Stability Commitment','3.2.S.7.3 - Stability Data','3.2.P.1 - Description and Composition of the Drug Product','3.2.P.2 - Pharmaceutical Development','3.2.P.3.1 - Manufacturer(s','3.2.P.3.2 - Batch Formula','3.2.P.3.3 - Description of Manufacturing Process and Process Controls','3.2.P.3.4 - Controls of Critical Steps and Intermediates','3.2.P.3.5 - Process Validation and/or Evaluation','3.2.P.5.1 - Specification(s','3.2.P.5.2 - Analytical Procedures','3.2.P.5.3 - Validation of Analytical Procedures','3.2.P.5.4 - Batch Analyses','3.2.P.5.5 - Characterization of Impurities' ,'3.2.P.5.6 - Justification of Specifications','3.2.P.6 - Reference Standards or Materials','3.2.P.7 - Container Closure System']
+            tobematched=[#cannot mention the categories]
             od={}
             for x in tobematched:
                 
@@ -81,7 +81,7 @@ def convert(fname, pages=None,encoding='utf-8'):
             od['Product']=''
             od['Category']=regex3
             substancemanufacturer = []
-            with open('/home/daniel/Arindam/Python_scripts/emea_org.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -93,7 +93,7 @@ def convert(fname, pages=None,encoding='utf-8'):
                             break
                         
             if substancemanufacturer is None:
-                nlp = spacy.load('/home/daniel/Arindam/Python_scripts/org_spacy')
+                nlp = spacy.load('xyz/org_spacy')
                 doc = nlp(text)
                 for ent in doc.ents:
                     new_ents = ent.text
@@ -113,7 +113,7 @@ def convert(fname, pages=None,encoding='utf-8'):
                             break
                         
             if substances is None:        
-                nlp = spacy.load('/home/daniel/Arindam/Python_scripts/sub_spacy')
+                nlp = spacy.load('xyz/sub_spacy')
                 doc = nlp(text)
                 for ent in doc.ents:
                     new_ents = ent.text
@@ -123,7 +123,7 @@ def convert(fname, pages=None,encoding='utf-8'):
             #return od                                    
             productmanufacturer = []
             
-            with open('/home/daniel/Arindam/Python_scripts/emea_org.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz/emea_org.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -135,14 +135,14 @@ def convert(fname, pages=None,encoding='utf-8'):
                             break
                         
             if productmanufacturer is None :
-                nlp = spacy.load('/home/daniel/Arindam/Python_scripts/org_spacy')
+                nlp = spacy.load('xyz/org_spacy')
                 doc = nlp(text)
                 for ent in doc.ents:
                     new_ents = ent.text
                     od['Product Manufacturer']= new_ents
-            #dosage = []
             
-            with open('/home/daniel/Arindam/Python_scripts/dosage.csv', newline='', encoding ='latin1') as myFile:
+            
+            with open('xyz/dosage.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -174,26 +174,24 @@ def convert(fname, pages=None,encoding='utf-8'):
                 tokenizer = RegexpTokenizer(r'\w+')
                 tokens = tokenizer.tokenize(rem_num)  
                 filtered_words = [w for w in tokens if len(w) > 2 if not w in stopwords.words('english')]
-                #stem_words=[stemmer.stem(w) for w in filtered_words]
+                
                 lemma_words=[lemmatizer.lemmatize(w) for w in filtered_words]
                 return " ".join(lemma_words)
 
 
             text=preprocess(text)
             #pdb.set_trace()
-            model = joblib.load(r'D:\work for auto ectd\gsmlp.pkl')
-            count_vect=joblib.load(r'D:\work for auto ectd\count_vect.pickel')
-            tfidf_transformer=joblib.load(r'D:\work for auto ectd\tfidf_transformer.pickel')
-            labelencoder=joblib.load(r'D:\work for auto ectd\number.pickel')
+            model = joblib.load(r'D:\xyz\gsmlp.pkl')
+            count_vect=joblib.load(r'D:\xyz\count_vect.pickel')
+            tfidf_transformer=joblib.load(r'D:\xyz\tfidf_transformer.pickel')
+            labelencoder=joblib.load(r'D:\xyz\number.pickel')
             text = count_vect.transform([text])
             text = tfidf_transformer.transform(text)
             prediction=model.predict(text)
             prediction=labelencoder.inverse_transform([prediction])
-            #ynew = sgd_model.predict_proba([text])
-            #for z in ynew:
-            #    probabilityscore=max(z)
+            
             od['Category']=str(prediction)
-            #od['Probability score']=str(probabilityscore)
+            
             return od
         else:
             return "Search returned zero values"
@@ -211,10 +209,10 @@ def convert(fname, pages=None,encoding='utf-8'):
         for imgBlob in imgBlobs:
             im= Image.open(io.BytesIO(imgBlob))
             text2 = pytesseract.image_to_string(im, lang = 'eng')
-        regex3=re.search(r"[3.]\d*(?:[.-]\w+)*\s*(General Information|Process validation|Justification of Specification(s)|Manufacturer(s)|Batch Formula|Description of Manufacturing Process and Process Controls|Controls of Critical Steps and Intermediates|Process Validation and or Evaluation|Specification(s)|Analytical Procedures|Validation of Analytical Procedures|Batch Analyses|Characterization of Impurities|Reference Standards or Materials|Container Closure System|Pharmaceutical Development|Description and Composition of the Drug Product|Quality overall summary|Nomenclature|Structure|General properties|Manufacturer|Description of Manufacturing Process and Process Controls|Stability Data|Control of Materials|Controls of Critical Steps and Intermediates|Process Validation and/or Evaluation|Manufacturing Process Development|Characterization|Elucidation of Structure and other Characteristics|Impurities|Specification|Analytical Procedures|Validation of Analytical Procedures|Batch Analyses|Justification of Specification|Reference Standards or Materials|Container Closure Systems|Stability Summary and Conclusions|Post Approval Stability Protocol and Stability Commitment)",text2,re.IGNORECASE)
+        regex3=re.search(r"[3.]\d*(?:[.-]\w+)*\s*(#cannot mention categories)",text2,re.IGNORECASE)
         if regex3 is not None:
             mn={}
-            tobematched=['3.2.S.1 - General Information','3.2.S.1.1 - Nomenclature','3.2.S.1.2 - Structure','3.2.S.1.3 - General properties' ,'3.2.S.2.1 - Manufacturer(s','3.2.S.2.2 - Description of Manufacturing Process and Process Controls','3.2.S.2.3 - Control of Materials','3.2.S.2.4 - Controls of Critical Steps and Intermediates','3.2.S.2.5 - Process Validation and/or Evaluation','3.2.S.2.6 - Manufacturing Process Development' ,'3.2.S.3 Characterisation' ,'3.2.S.3.1 - Elucidation of Structure and other Characteristics','3.2.S.3.2 - Impurities' ,'3.2.S.4.1 - Specification','3.2.S.4.2 - Analytical Procedures','3.2.S.4.3 - Validation of Analytical Procedures','3.2.S.4.4 - Batch Analyses','3.2.S.4.5 - Justification of Specification','3.2.S.5 - Reference Standards or Materials','3.2.S.6 - Container Closure Systems','3.2.S.7.1 - Stability Summary and Conclusions','3.2.S.7.2 - Post Approval Stability Protocol and Stability Commitment','3.2.S.7.3 - Stability Data','3.2.P.1 - Description and Composition of the Drug Product','3.2.P.2 - Pharmaceutical Development','3.2.P.3.1 - Manufacturer(s','3.2.P.3.2 - Batch Formula','3.2.P.3.3 - Description of Manufacturing Process and Process Controls','3.2.P.3.4 - Controls of Critical Steps and Intermediates','3.2.P.3.5 - Process Validation and/or Evaluation','3.2.P.5.1 - Specification(s','3.2.P.5.2 - Analytical Procedures','3.2.P.5.3 - Validation of Analytical Procedures','3.2.P.5.4 - Batch Analyses','3.2.P.5.5 - Characterization of Impurities' ,'3.2.P.5.6 - Justification of Specifications','3.2.P.6 - Reference Standards or Materials','3.2.P.7 - Container Closure System']
+            tobematched=['#cannot mention categories']
             od={}
             for x in tobematched:
                 Ratio=fuzz.ratio(regex3.group().lower(),x.lower())
@@ -229,7 +227,7 @@ def convert(fname, pages=None,encoding='utf-8'):
             od['Product']=''
             od['Category']=regex3
             substancemanufacturer = []
-            with open('/home/daniel/Arindam/Python_scripts/emea_org.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz/emea_org.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -246,7 +244,7 @@ def convert(fname, pages=None,encoding='utf-8'):
                     new_ents = ent.text
                     od['Substance Manufacturer']= new_ents
             substances = [] 
-            with open('/home/daniel/Arindam/Python_scripts/emea_substance.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz/emea_substance.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -257,7 +255,7 @@ def convert(fname, pages=None,encoding='utf-8'):
                             od['Substance']=c
                             break
             if substances is None:        
-                nlp = spacy.load('/home/daniel/Arindam/Python_scripts/sub_spacy')
+                nlp = spacy.load('xyz/sub_spacy')
                 doc = nlp(text)
                 for ent in doc.ents:
                     new_ents = ent.text
@@ -266,7 +264,7 @@ def convert(fname, pages=None,encoding='utf-8'):
             #return od
                                     
             productmanufacturer = []
-            with open('/home/daniel/Arindam/Python_scripts/emea_org.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz/emea_org.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -283,7 +281,7 @@ def convert(fname, pages=None,encoding='utf-8'):
                     new_ents = ent.text
                     od['Product Manufacturer']= new_ents
             #dosage = []
-            with open('/home/daniel/Arindam/Python_scripts/dosage.csv', newline='', encoding ='latin1') as myFile:
+            with open('xyz/dosage.csv', newline='', encoding ='latin1') as myFile:
                 reader = csv.reader(myFile)
                 for row in reader:
                     if len(row[1])>=4:
@@ -347,7 +345,7 @@ def convert(fname, pages=None,encoding='utf-8'):
     
     
     
-convert(r'D:\summary of non clinical studies\1131summaryfornonclinicalstudy_9a79b2c1-d537-437f-bc1a-5487dc0529c6.pdf')    
+convert(r'xyz\1131summaryfornonclinicalstudy_9a79b2c1-d537-437f-bc1a-5487dc0529c6.pdf')    
     
     
     
